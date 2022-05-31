@@ -14,29 +14,51 @@ ui <- dashboardPage(
   )),
   dashboardBody(
     fluidRow(
-      box(plotlyOutput("timeseries"), width = 10),
-      box(
-        title = "Controls",
-        sliderInput("slider", "Number of observations:", 1, 100, 50)
-      )
+      box(plotlyOutput("timeseries"), width = 8),
+      box(width = 4,
+        title = "Controles",
+        pickerInput(
+          inputId = "Id008",
+          label = "Elegir entidad", 
+          choices = entities$name,
+          multiple = TRUE,
+          selected = "Distrito Capital",
+          choicesOpt = list(
+            subtext = entities$type
+
+        ))
+      ,
+       airDatepickerInput(
+         inputId = "Id009",
+         timepicker = TRUE,
+         range = TRUE,
+         todayButton = TRUE
+       )),
+      box(textOutput("text"))
+      
+      
     )
   )
 )
 
 server <- function(input, output) {
-
-url <- "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/region/4501%2C4503%2C4504?from=1651135804&until=1653727804&datasource=ping-slash24"
-test_dataframe <- test_func(fetch_data(url))
   
   
+test_dataframe <- reactive({
+  
+  req(input$Id008,input$Id009)
+  
+  extract_df(input$Id008,input$Id009)})
+  
+output$text<- renderPrint(input$Id009)
   output$timeseries <- renderPlotly({
     
-    plot_ly(test_dataframe,
+    plot_ly(test_dataframe(),
             x= ~date,
             y= ~values,
             color = ~entityName,
             type = 'scatter',
-            mode = "line")
+            mode = "line") %>% layout(legend = list(orientation = 'h'))
   })
 }
 

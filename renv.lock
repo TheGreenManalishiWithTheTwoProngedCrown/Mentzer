@@ -470,16 +470,6 @@
         "lattice"
       ]
     },
-    "openssl": {
-      "Package": "openssl",
-      "Version": "2.0.1",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "edde731e84cf3d42aa9b7f04b8de5941",
-      "Requirements": [
-        "askpass"
-      ]
-    },
     "pillar": {
       "Package": "pillar",
       "Version": "1.7.0",

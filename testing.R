@@ -11,6 +11,11 @@ unix_date <- function(x){
   }
 
 
+unix_from_date <- function(x){
+  as.numeric(as.POSIXct(x, format="%Y-%m-%d %H:%M:%S"))
+}
+
+
 fetch_data <- function(url){
   raw <- httr::GET(url)
   content <- httr::content(raw,as="text")
@@ -21,6 +26,11 @@ fetch_data <- function(url){
 
 create_url <- function(type,code,from,until,datasource){
   header = "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/"
+  
+
+  if (length(code) > 1) {
+    code <- paste(code, collapse= "%2C")
+  }
   url <- paste0(header,type,"/",code,"?from=",as.character(from),"&until=",as.character(until),"&datasource=",datasource)
   return(url)
 }
@@ -55,3 +65,14 @@ lapply(alist, unnest,values) -> temp
     
 }
 
+
+extract_df <- function(region_input,date_list){
+  print(region_input)
+  print(typeof(region_input))
+  codes <- lapply(region_input,get_code_from_name,entities)
+  print(codes)
+  from <- unix_from_date(date_list[1])
+  until <- unix_from_date(date_list[2])
+  url <-create_url("region",codes,from,until,"ping-slash24")
+  return(test_func(fetch_data(url)))
+}
