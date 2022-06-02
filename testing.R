@@ -25,7 +25,7 @@ fetch_data <- function(url){
 
 
 create_url <- function(type,code,from,until,datasource){
-  header = "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/"
+  header = "http://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/"
   
 
   if (length(code) > 1) {
@@ -39,7 +39,7 @@ create_url <- function(type,code,from,until,datasource){
 
 normalize <- function(value){
   return(
-    (value)/(max(value))
+    (value+2)/(max(value))
   )
 }
 

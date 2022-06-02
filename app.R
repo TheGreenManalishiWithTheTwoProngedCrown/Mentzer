@@ -33,7 +33,15 @@ ui <- dashboardPage(
          timepicker = TRUE,
          range = TRUE,
          todayButton = TRUE
-       )),
+       ),
+      
+      
+      materialSwitch(
+        inputId = "Id006",
+        label = "Primary switch", 
+        status = "primary",
+        right = TRUE
+      )),
       box(textOutput("text"))
       
       
@@ -50,7 +58,7 @@ test_dataframe <- reactive({
   
   extract_df(input$Id008,input$Id009)})
   
-output$text<- renderPrint(input$Id009)
+output$text<- renderPrint(input$Id006)
   output$timeseries <- renderPlotly({
     
     plot_ly(test_dataframe(),

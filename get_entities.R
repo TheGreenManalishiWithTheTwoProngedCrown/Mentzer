@@ -1,4 +1,4 @@
-query <- "https://api.ioda.inetintel.cc.gatech.edu/v2/entities/query?relatedTo=country%2FVE"
+query <- "http://api.ioda.inetintel.cc.gatech.edu/v2/entities/query?relatedTo=country%2FVE"
 fetch_data(query) -> entities
 
 
