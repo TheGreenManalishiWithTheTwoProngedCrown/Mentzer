@@ -66,7 +66,7 @@ lapply(alist, unnest,values) -> temp
 }
 
 
-extract_df <- function(region_input,date_list){
+extract_df <- function(region_input,date_list,normalize_bool){
   print(region_input)
   print(typeof(region_input))
   codes <- lapply(region_input,get_code_from_name,entities)
@@ -74,5 +74,14 @@ extract_df <- function(region_input,date_list){
   from <- unix_from_date(date_list[1])
   until <- unix_from_date(date_list[2])
   url <-create_url("region",codes,from,until,"ping-slash24")
-  return(test_func(fetch_data(url)))
+  dataframe <- test_func(fetch_data(url))
+  
+  if(normalize_bool){
+    dataframe %>% 
+      mutate(value = normalize(value)) -> dataframe
+    
+    
+  }
+  
+  return(dataframe)
 }
