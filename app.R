@@ -15,7 +15,7 @@ ui <- dashboardPage(
   dashboardBody(
     fluidRow(
       box(plotlyOutput("timeseries"), width = 8),
-      box(width = 7,
+      box(width = 4,
         title = "Controles",
         pickerInput(
           inputId = "Id008",
@@ -36,12 +36,18 @@ ui <- dashboardPage(
          todayButton = TRUE
        ),
       
+
       awesomeCheckboxGroup(
         inputId = "Id001",
         label = "Checkboxes with status", 
         choices = c("A", "B", "C"),
         inline = TRUE,
-        status = "danger"
+        status = "danger"),
+      materialSwitch(
+        inputId = "Id006",
+        label = "Primary switch", 
+        status = "primary",
+        right = TRUE
       )),
       box(textOutput("text"))
       
@@ -57,11 +63,14 @@ test_dataframe <- reactive({
   
   req(input$Id008,input$Id009)
   
-  extract_df(input$Id008,input$Id009,input$Id001)})
+  extract_df(input$Id008,input$Id009,input$Id006)})
   
-output$text<- renderPrint(input$Id001)
+
+output$text<- renderPrint(input$Id009)
 
 
+
+output$text<- renderPrint(input$Id009)
   output$timeseries <- renderPlotly({
     
     plot_ly(test_dataframe(),

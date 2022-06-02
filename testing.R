@@ -25,7 +25,7 @@ fetch_data <- function(url){
 
 
 create_url <- function(type,code,from,until,datasource){
-  header = "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/"
+  header = "http://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/"
   
 
   if (length(code) > 1) {
@@ -39,14 +39,15 @@ create_url <- function(type,code,from,until,datasource){
 
 normalize <- function(value){
   return(
-    (value)/(max(value))
-  )
+  value/max(value,na.rm = TRUE))
 }
 
 
 get_code_from_name <- function(name,data){
   return(data[data$name == name,]$code)
 }
+
+ma <- function(x, n = 5){stats::filter(x, rep(1 / n, n), sides = 2)}
 
 test_func <- function(alist){
   
@@ -66,7 +67,7 @@ lapply(alist, unnest,values) -> temp
 }
 
 
-extract_df <- function(region_input,date_list,normalize_bool){
+extract_df <- function(region_input,date_list,normalize_bool= FALSE){
   print(region_input)
   print(typeof(region_input))
   codes <- lapply(region_input,get_code_from_name,entities)
@@ -78,7 +79,7 @@ extract_df <- function(region_input,date_list,normalize_bool){
   
   if(normalize_bool){
     dataframe %>% 
-      mutate(value = normalize(value)) -> dataframe
+      mutate(values = ma(values)) -> dataframe
     
     
   }
