@@ -45,7 +45,7 @@ ui <- dashboardPage(
         status = "danger"),
       materialSwitch(
         inputId = "Id006",
-        label = "Primary switch", 
+        label = "Moving Average", 
         status = "primary",
         right = TRUE
       )),
