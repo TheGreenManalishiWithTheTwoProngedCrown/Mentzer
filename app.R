@@ -20,13 +20,23 @@ ui <- dashboardPage(
         pickerInput(
           inputId = "Id008",
           label = "Elegir entidad", 
-          choices = entities$name,
+          choices = regions$name,
           multiple = TRUE,
           selected = "Distrito Capital",
           options =  list("tick-icon" = "glyphicon glyphicon-ok-sign"),
           choicesOpt = list(
             subtext = entities$type
 
+        )),
+      pickerInput(
+        inputId = "Id010",
+        label = "Elegir ISP", 
+        choices = isp$name,
+        multiple = TRUE,
+        options =  list("tick-icon" = "glyphicon glyphicon-ok-sign"),
+        choicesOpt = list(
+          subtext = entities$type
+          
         ))
       ,
        airDatepickerInput(
@@ -35,17 +45,15 @@ ui <- dashboardPage(
          range = TRUE,
          todayButton = TRUE
        ),
-      
-
-      awesomeCheckboxGroup(
-        inputId = "Id001",
-        label = "Checkboxes with status", 
-        choices = c("A", "B", "C"),
-        inline = TRUE,
-        status = "danger"),
       materialSwitch(
         inputId = "Id006",
         label = "Moving Average", 
+        status = "primary",
+        right = TRUE
+      ),
+      materialSwitch(
+        inputId = "Id007",
+        label = "Normalize", 
         status = "primary",
         right = TRUE
       )),
@@ -61,16 +69,17 @@ server <- function(input, output) {
   
 test_dataframe <- reactive({
   
-  req(input$Id008,input$Id009)
+  req((isTruthy(input$Id008)|| isTruthy(input$Id010))
+      ,input$Id009)
   
-  extract_df(input$Id008,input$Id009,input$Id006)})
+  extract_df(input$Id008,input$Id009,input$Id007,input$Id006,input$Id010)})
   
 
-output$text<- renderPrint(input$Id009)
+# output$text<- renderPrint(input$Id010)
 
 
 
-output$text<- renderPrint(input$Id009)
+output$text<- renderPrint(input$Id010)
   output$timeseries <- renderPlotly({
     
     plot_ly(test_dataframe(),

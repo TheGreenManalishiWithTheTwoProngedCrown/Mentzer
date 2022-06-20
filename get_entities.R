@@ -12,3 +12,5 @@ filter(!code %in% drop) -> entities
 
 
 
+regions <- entities %>% filter(type == "region")
+isp <- entities %>% filter(type == "asn")
