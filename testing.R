@@ -47,7 +47,9 @@ get_code_from_name <- function(name,data){
   return(data[data$name == name,]$code)
 }
 
-ma <- function(x, n = 5){stats::filter(x, rep(1 / n, n), sides = 2)}
+ma <- function(x, n = 5){
+  stats::filter(x, rep(1 / n, n), sides = 2)
+  }
 
 test_func <- function(alist){
   
@@ -67,7 +69,7 @@ lapply(alist, unnest,values) -> temp
 }
 
 
-extract_df <- function(region_input,date_list,normalize_bool= FALSE){
+extract_df <- function(region_input,date_list,normalize_bool= FALSE,ma_bool= FALSE){
   print(region_input)
   print(typeof(region_input))
   codes <- lapply(region_input,get_code_from_name,entities)
@@ -79,8 +81,11 @@ extract_df <- function(region_input,date_list,normalize_bool= FALSE){
   
   if(normalize_bool){
     dataframe %>% 
-      mutate(values = ma(values)) -> dataframe
-    
+      mutate(values = normalize(values)) -> dataframe
+  }
+    if(ma_bool){
+      dataframe %>% 
+        mutate(values = ma(values)) -> dataframe
     
   }
   

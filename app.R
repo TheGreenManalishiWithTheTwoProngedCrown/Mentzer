@@ -43,8 +43,15 @@ ui <- dashboardPage(
         choices = c("A", "B", "C"),
         inline = TRUE,
         status = "danger"),
+      
       materialSwitch(
         inputId = "Id006",
+        label = "Normalize", 
+        status = "primary",
+        right = TRUE
+      ),
+      materialSwitch(
+        inputId = "Id007",
         label = "Moving Average", 
         status = "primary",
         right = TRUE
@@ -63,7 +70,7 @@ test_dataframe <- reactive({
   
   req(input$Id008,input$Id009)
   
-  extract_df(input$Id008,input$Id009,input$Id006)})
+  extract_df(input$Id008,input$Id009,input$Id006,input$Id007)})
   
 
 output$text<- renderPrint(input$Id009)
