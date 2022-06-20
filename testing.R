@@ -47,7 +47,7 @@ get_code_from_name <- function(name,data){
   return(data[data$name == name,]$code)
 }
 
-ma <- function(x, n = 5){stats::filter(x, rep(1 / n, n), sides = 5)}
+ma <- function(x, n = 9){stats::filter(x, rep(1 / n, n), sides = 2)}
 
 test_func <- function(alist){
   
@@ -81,8 +81,15 @@ extract_df <- function(region_input=NULL,date_list,normalize_bool= FALSE, moving
   if (!is.null(isp_req)) {
     url_isp <- create_url("asn",lapply(isp_req,get_code_from_name,entities),from,until,"ping-slash24")
     dataframe_isp <- test_func(fetch_data(url_isp))
+
+   dataframe_isp <-  dataframe_isp %>% 
+      left_join(select(entities,code,name), by = c("entityCode" = "code")) 
+   
+dataframe_isp <- dataframe_isp %>% mutate(entityName = name) %>% select(-name)
+
     if(is.null(region_input)){
       dataframe <- dataframe_isp
+      print(dataframe)
     }
     
     if ((!is.null(isp_req) && !is.null(region_input))) {

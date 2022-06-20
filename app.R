@@ -70,9 +70,13 @@ server <- function(input, output) {
 test_dataframe <- reactive({
   
   req((isTruthy(input$Id008)|| isTruthy(input$Id010))
-      ,input$Id009)
+      ,length(input$Id009) == 2)
   
-  extract_df(input$Id008,input$Id009,input$Id007,input$Id006,input$Id010)})
+  extract_df(region_input=input$Id008,
+             date_list = input$Id009,
+             normalize_bool= input$Id007,
+             moving_average = input$Id006,
+             isp_req = input$Id010)})
   
 
 # output$text<- renderPrint(input$Id010)
@@ -87,7 +91,9 @@ output$text<- renderPrint(input$Id010)
             y= ~values,
             color = ~entityName,
             type = 'scatter',
-            mode = "line") %>% layout(legend = list(orientation = 'h'))
+            mode = "line") %>% layout(legend = list(orientation = 'h'),
+                                      yaxis = list(rangemode = 'tozero'),
+                                      xaxis = list(visible = 'FALSE'))
   })
 }
 
