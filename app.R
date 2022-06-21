@@ -91,13 +91,11 @@ test_dataframe <- reactive({
              vnzla = input$Id011)})
 
 
-# output$text<- renderPrint(input$Id010)
-
 normalize_label <- reactive({
   input$Id007
 })
 
-output$text<- renderPrint(input$Id010)
+output$text<- renderPrint(input$Id009)
   output$timeseries <- renderPlotly({
     
     p <- plot_ly(test_dataframe(),
