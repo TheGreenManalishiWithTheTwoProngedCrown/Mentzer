@@ -12,10 +12,9 @@ ui <- dashboardPage(
     
     pickerInput(
       inputId = "Id008",
-      label = "Elegir entidad", 
+      label = "Elegir Región", 
       choices = regions$name,
       multiple = TRUE,
-      selected = "Distrito Capital",
       options =  list("tick-icon" = "glyphicon glyphicon-ok-sign",
                       `actions-box` = TRUE,
                       `live-Search` = TRUE,
