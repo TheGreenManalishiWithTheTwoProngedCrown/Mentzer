@@ -8,7 +8,7 @@ source("get_entities.R")
 
 ui <- dashboardPage(
   dashboardHeader(title = "Proyecto Mentzer"),
-  dashboardSidebar(sidebarMenu(
+  dashboardSidebar(collapsed = TRUE,sidebarMenu(
     menuItem(tabName = "home", text = "Home", icon = icon("home")),
     menuItem(tabName = "another", text = "Another Tab", icon = icon("heart"))
   )),
