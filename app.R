@@ -8,7 +8,8 @@ source("get_entities.R")
 
 ui <- dashboardPage(
   dashboardHeader(title = "Proyecto Mentzer"),
-  dashboardSidebar(sidebarMenu(
+  dashboardSidebar(width = 300, sidebarMenu(
+    
     pickerInput(
       inputId = "Id008",
       label = "Elegir entidad", 
@@ -30,6 +31,15 @@ ui <- dashboardPage(
         subtext = entities$type
       )
     ),
+    
+    awesomeCheckboxGroup(
+      inputId = "Id001",
+      label = "Data Types", 
+      choices = c("Active Probing", "BGP", "Telescope"),
+      inline = TRUE,
+      status = "danger"
+    ),
+    
     airDatepickerInput(
       inputId = "Id009",
       timepicker = TRUE,
@@ -90,7 +100,7 @@ output$text<- renderPrint(input$Id010)
             mode = 'lines+markers') %>% 
       layout(height = 535, legend = list(xanchor = "center", x = 0.5, y = -0.15, orientation = 'h'),
              xaxis = list(visible = 'FALSE',title = '<b> Time(UTC) </b>'),
-             yaxis = list(rangemode = 'tozero',title = '<b> #/24s Up (%) </b>')
+             yaxis = list(rangemode = 'tozero',title = '<b> #/24s Up </b>')
              ) 
 
     if(normalize_label()){
