@@ -34,7 +34,9 @@ ui <- dashboardPage(
       inputId = "Id009",
       timepicker = TRUE,
       range = TRUE,
-      todayButton = TRUE
+      todayButton = TRUE,
+      label = "Fecha",
+      clearButton = TRUE
     ),
     materialSwitch(
       inputId = "Id006",
