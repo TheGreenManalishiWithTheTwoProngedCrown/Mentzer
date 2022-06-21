@@ -93,8 +93,8 @@ output$text<- renderPrint(input$Id010)
             type = 'scatter',
             mode = 'lines+markers') %>% 
       layout(height = 480, legend = list( y = -0.2, orientation = 'h'),
-             xaxis = list(visible = 'FALSE',title = "Time(UTC)"),
-             yaxis = list(rangemode = 'tozero',title = "#/24s Up (%)")
+             xaxis = list(visible = 'FALSE',title = '<b> Time(UTC) </b>'),
+             yaxis = list(rangemode = 'tozero',title = '<b> #/24s Up (%) </b>')
              )
 
   })
