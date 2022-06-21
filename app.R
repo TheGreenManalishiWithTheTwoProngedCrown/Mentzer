@@ -14,8 +14,8 @@ ui <- dashboardPage(
   )),
   dashboardBody(
     fluidRow(
-      box(plotlyOutput("timeseries"), width = 8),
-      box(width = 4,
+      box(plotlyOutput("timeseries"), width = 9),
+      box(width = 3,
         title = "Controles",
         pickerInput(
           inputId = "Id008",
@@ -85,7 +85,11 @@ output$text<- renderPrint(input$Id009)
             y= ~values,
             color = ~entityName,
             type = 'scatter',
-            mode = "line") %>% layout(legend = list(orientation = 'h'))
+            mode = 'lines+markers') %>% 
+      layout(legend = list( y = -0.2, orientation = 'h'),
+             xaxis = list(title = "Time(UTC)"),
+             yaxis = list(title = "#/24s Up (%)")
+             )
   })
 }
 

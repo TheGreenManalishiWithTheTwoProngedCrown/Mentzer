@@ -2,6 +2,7 @@ library(jsonlite)
 library(dplyr)
 library(lubridate)
 library(ggplot2)
+library(plotly)
 
 
 
@@ -39,7 +40,7 @@ create_url <- function(type,code,from,until,datasource){
 
 normalize <- function(value){
   return(
-  value/max(value,na.rm = TRUE))
+    100*value/max(value,na.rm = TRUE))
 }
 
 
@@ -50,6 +51,8 @@ get_code_from_name <- function(name,data){
 ma <- function(x, n = 5){
   stats::filter(x, rep(1 / n, n), sides = 2)
   }
+
+
 
 test_func <- function(alist){
   
@@ -83,9 +86,9 @@ extract_df <- function(region_input,date_list,normalize_bool= FALSE,ma_bool= FAL
     dataframe %>% 
       mutate(values = normalize(values)) -> dataframe
   }
-    if(ma_bool){
-      dataframe %>% 
-        mutate(values = ma(values)) -> dataframe
+  if(ma_bool){
+    dataframe %>%
+      mutate(values = ma(values)) -> dataframe
     
   }
   
