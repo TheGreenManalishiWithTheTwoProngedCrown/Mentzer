@@ -75,12 +75,14 @@ test_dataframe <- reactive({
 
 # output$text<- renderPrint(input$Id010)
 
-
+normalize_label <- reactive({
+  input$Id007
+})
 
 output$text<- renderPrint(input$Id010)
   output$timeseries <- renderPlotly({
     
-    plot_ly(test_dataframe(),
+    p <- plot_ly(test_dataframe(),
             x= ~date,
             y= ~values,
             color = ~entityName,
@@ -89,8 +91,14 @@ output$text<- renderPrint(input$Id010)
       layout(height = 535, legend = list(xanchor = "center", x = 0.5, y = -0.15, orientation = 'h'),
              xaxis = list(visible = 'FALSE',title = '<b> Time(UTC) </b>'),
              yaxis = list(rangemode = 'tozero',title = '<b> #/24s Up (%) </b>')
-             )
+             ) 
 
+    if(normalize_label()){
+      p <- p %>% 
+        layout(yaxis = list(ticksuffix = "%"))
+    }
+    
+    p
   })
 }
 shinyApp(ui, server)
