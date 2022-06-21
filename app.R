@@ -30,6 +30,13 @@ ui <- dashboardPage(
                       `live-Search` = TRUE)
     ),
     
+    materialSwitch(
+      inputId = "Id011",
+      label = "Venezuela (Nacional)", 
+      status = "primary",
+      right = TRUE
+    ),
+    
     awesomeCheckboxGroup(
       inputId = "Id001",
       label = "Data Types", 
@@ -55,12 +62,6 @@ ui <- dashboardPage(
     materialSwitch(
       inputId = "Id007",
       label = "Normalize", 
-      status = "primary",
-      right = TRUE
-    ),
-    materialSwitch(
-      inputId = "Id011",
-      label = "Venezuela", 
       status = "primary",
       right = TRUE
     )
