@@ -16,20 +16,19 @@ ui <- dashboardPage(
       choices = regions$name,
       multiple = TRUE,
       selected = "Distrito Capital",
-      options =  list("tick-icon" = "glyphicon glyphicon-ok-sign"),
-      choicesOpt = list(
-        subtext = entities$type
-      )
+      options =  list("tick-icon" = "glyphicon glyphicon-ok-sign",
+                      `actions-box` = TRUE,
+                      `live-Search` = TRUE,
+                      liveSearchStyle = "contains"),
     ),
     pickerInput(
       inputId = "Id010",
       label = "Elegir ISP", 
       choices = isp$name,
       multiple = TRUE,
-      options =  list("tick-icon" = "glyphicon glyphicon-ok-sign"),
-      choicesOpt = list(
-        subtext = entities$type
-      )
+      options =  list("tick-icon" = "glyphicon glyphicon-ok-sign",
+                      `actions-box` = TRUE,
+                      `live-Search` = TRUE)
     ),
     
     awesomeCheckboxGroup(
@@ -44,7 +43,9 @@ ui <- dashboardPage(
       inputId = "Id009",
       timepicker = TRUE,
       range = TRUE,
-      todayButton = TRUE
+      todayButton = TRUE,
+      label = "Fecha",
+      clearButton = TRUE
     ),
     materialSwitch(
       inputId = "Id006",

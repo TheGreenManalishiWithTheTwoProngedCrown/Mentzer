@@ -45,7 +45,7 @@ get_code_from_name <- function(name,data){
   return(data[data$name == name,]$code)
 }
 
-ma <- function(x, n = 7){
+ma <- function(x, n = 10){
   stats::filter(x, rep(1 / n, n), sides = 2)
   }
 
