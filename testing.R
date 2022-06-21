@@ -63,10 +63,8 @@ test_func <- function(alist){
       select(-from,-until,-step,-nativeStep)
 }
   
-extract_df <- function(region_input=NULL,date_list,normalize_bool= FALSE, moving_average = FALSE, isp_req = NULL){
+extract_df <- function(region_input=NULL,date_list,normalize_bool= FALSE, moving_average = FALSE, isp_req = NULL,vnzla = FALSE){
 
-  print(region_input)
-  print(typeof(region_input))
   if(!is.null(region_input)){
   codes <- lapply(region_input,get_code_from_name,entities)
   print(codes)
@@ -75,6 +73,7 @@ extract_df <- function(region_input=NULL,date_list,normalize_bool= FALSE, moving
   url <-create_url("region",codes,from,until,"ping-slash24")
   dataframe <- test_func(fetch_data(url))
   }
+  
   if (!is.null(isp_req)) {
     url_isp <- create_url("asn",lapply(isp_req,get_code_from_name,entities),from,until,"ping-slash24")
     dataframe_isp <- test_func(fetch_data(url_isp))
@@ -86,13 +85,19 @@ dataframe_isp <- dataframe_isp %>% mutate(entityName = name) %>% select(-name)
 
     if(is.null(region_input)){
       dataframe <- dataframe_isp
-      print(dataframe)
     }
     
     if ((!is.null(isp_req) && !is.null(region_input))) {
       dataframe <- rbind(dataframe,dataframe_isp)
     }
   }
+  
+  if(vnzla == TRUE){
+    url_vnzla <- create_url("country","VE",from,until,"ping-slash24")
+    dataframe_vnzla <- test_func(fetch_data(url_vnzla))
+    dataframe <- rbind(dataframe,dataframe_vnzla)
+  }
+  
   
   if(normalize_bool){
     dataframe %>% 

@@ -48,6 +48,12 @@ ui <- dashboardPage(
       label = "Normalize", 
       status = "primary",
       right = TRUE
+    ),
+    materialSwitch(
+      inputId = "Id011",
+      label = "Venezuela", 
+      status = "primary",
+      right = TRUE
     )
   )
 ),
@@ -71,7 +77,8 @@ test_dataframe <- reactive({
              date_list = input$Id009,
              normalize_bool= input$Id007,
              moving_average = input$Id006,
-             isp_req = input$Id010)})
+             isp_req = input$Id010,
+             vnzla = input$Id011)})
 
 
 # output$text<- renderPrint(input$Id010)
