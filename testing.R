@@ -64,12 +64,12 @@ test_func <- function(alist){
 }
   
 extract_df <- function(region_input=NULL,date_list,normalize_bool= FALSE, moving_average = FALSE, isp_req = NULL,vnzla = FALSE){
-
+  from <- unix_from_date(date_list[1])
+  until <- unix_from_date(date_list[2])
   if(!is.null(region_input)){
   codes <- lapply(region_input,get_code_from_name,entities)
   print(codes)
-  from <- unix_from_date(date_list[1])
-  until <- unix_from_date(date_list[2])
+
   url <-create_url("region",codes,from,until,"ping-slash24")
   dataframe <- test_func(fetch_data(url))
   }
@@ -77,7 +77,7 @@ extract_df <- function(region_input=NULL,date_list,normalize_bool= FALSE, moving
   if (!is.null(isp_req)) {
     url_isp <- create_url("asn",lapply(isp_req,get_code_from_name,entities),from,until,"ping-slash24")
     dataframe_isp <- test_func(fetch_data(url_isp))
-
+    print(url_isp)
    dataframe_isp <-  dataframe_isp %>% 
       left_join(select(entities,code,name), by = c("entityCode" = "code")) 
    
@@ -85,9 +85,11 @@ dataframe_isp <- dataframe_isp %>% mutate(entityName = name) %>% select(-name)
 
     if(is.null(region_input)){
       dataframe <- dataframe_isp
+      print(dataframe$name)
     }
     
     if ((!is.null(isp_req) && !is.null(region_input))) {
+      print(dataframe_isp$date)
       dataframe <- rbind(dataframe,dataframe_isp)
     }
   }
