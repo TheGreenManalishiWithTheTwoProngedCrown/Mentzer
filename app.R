@@ -19,9 +19,6 @@ ui <- dashboardPage(
                       `actions-box` = TRUE,
                       `live-Search` = TRUE,
                       liveSearchStyle = "contains"),
-      choicesOpt = list(
-        subtext = entities$type
-      )
     ),
     pickerInput(
       inputId = "Id010",
@@ -30,10 +27,7 @@ ui <- dashboardPage(
       multiple = TRUE,
       options =  list("tick-icon" = "glyphicon glyphicon-ok-sign",
                       `actions-box` = TRUE,
-                      `live-Search` = TRUE),
-      choicesOpt = list(
-        subtext = entities$type
-      )
+                      `live-Search` = TRUE)
     ),
     airDatepickerInput(
       inputId = "Id009",
