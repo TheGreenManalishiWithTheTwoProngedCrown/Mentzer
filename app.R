@@ -8,58 +8,52 @@ source("get_entities.R")
 
 ui <- dashboardPage(
   dashboardHeader(title = "Proyecto Mentzer"),
-  dashboardSidebar(collapsed = TRUE,sidebarMenu(
-    menuItem(tabName = "home", text = "Home", icon = icon("home")),
-    menuItem(tabName = "another", text = "Another Tab", icon = icon("heart"))
-  )),
+  dashboardSidebar(sidebarMenu(
+    pickerInput(
+      inputId = "Id008",
+      label = "Elegir entidad", 
+      choices = regions$name,
+      multiple = TRUE,
+      selected = "Distrito Capital",
+      options =  list("tick-icon" = "glyphicon glyphicon-ok-sign"),
+      choicesOpt = list(
+        subtext = entities$type
+      )
+    ),
+    pickerInput(
+      inputId = "Id010",
+      label = "Elegir ISP", 
+      choices = isp$name,
+      multiple = TRUE,
+      options =  list("tick-icon" = "glyphicon glyphicon-ok-sign"),
+      choicesOpt = list(
+        subtext = entities$type
+      )
+    ),
+    airDatepickerInput(
+      inputId = "Id009",
+      timepicker = TRUE,
+      range = TRUE,
+      todayButton = TRUE
+    ),
+    materialSwitch(
+      inputId = "Id006",
+      label = "Moving Average", 
+      status = "primary",
+      right = TRUE
+    ),
+    materialSwitch(
+      inputId = "Id007",
+      label = "Normalize", 
+      status = "primary",
+      right = TRUE
+    )
+  )
+),
   dashboardBody(
     fluidRow(
-      box(plotlyOutput("timeseries"), width = 9, height = 500),
-      box(width = 3,
-        title = "Controles",
-        pickerInput(
-          inputId = "Id008",
-          label = "Elegir entidad", 
-          choices = regions$name,
-          multiple = TRUE,
-          selected = "Distrito Capital",
-          options =  list("tick-icon" = "glyphicon glyphicon-ok-sign"),
-          choicesOpt = list(
-            subtext = entities$type
-
-        )),
-      pickerInput(
-        inputId = "Id010",
-        label = "Elegir ISP", 
-        choices = isp$name,
-        multiple = TRUE,
-        options =  list("tick-icon" = "glyphicon glyphicon-ok-sign"),
-        choicesOpt = list(
-          subtext = entities$type
-          
-        ))
-      ,
-       airDatepickerInput(
-         inputId = "Id009",
-         timepicker = TRUE,
-         range = TRUE,
-         todayButton = TRUE
-       ),
-      materialSwitch(
-        inputId = "Id006",
-        label = "Moving Average", 
-        status = "primary",
-        right = TRUE
-      ),
-      materialSwitch(
-        inputId = "Id007",
-        label = "Normalize", 
-        status = "primary",
-        right = TRUE
-      )),
+      box(plotlyOutput("timeseries"), width = 12, height = 580),
       box(textOutput("text"))
-      
-      
     )
   )
 )
@@ -92,7 +86,7 @@ output$text<- renderPrint(input$Id010)
             color = ~entityName,
             type = 'scatter',
             mode = 'lines+markers') %>% 
-      layout(height = 480, legend = list( y = -0.2, orientation = 'h'),
+      layout(height = 535, legend = list(xanchor = "center", x = 0.5, y = -0.15, orientation = 'h'),
              xaxis = list(visible = 'FALSE',title = '<b> Time(UTC) </b>'),
              yaxis = list(rangemode = 'tozero',title = '<b> #/24s Up (%) </b>')
              )

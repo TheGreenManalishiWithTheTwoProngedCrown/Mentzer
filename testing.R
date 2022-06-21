@@ -36,13 +36,10 @@ create_url <- function(type,code,from,until,datasource){
   return(url)
 }
 
-
-
 normalize <- function(value){
   return(
     100*value/max(value,na.rm = TRUE))
 }
-
 
 get_code_from_name <- function(name,data){
   return(data[data$name == name,]$code)
@@ -53,20 +50,17 @@ ma <- function(x, n = 7){
   }
 
 test_func <- function(alist){
-  
-  
-lapply(alist, unnest,values) -> temp
-  Reduce(full_join,temp) -> temp 
-  from <- unique(temp$from)
-  until <- unique(temp$until)
-  step <- unique(temp$step)
-  timeperiod <- seq(from,until -step,step)
-  temp %>% 
-    group_by(entityCode) %>% 
-    mutate(date = timeperiod) %>% 
-    mutate(date = unix_date(date)) %>% 
-    select(-from,-until,-step,-nativeStep)
-    
+  lapply(alist, unnest,values) -> temp
+    Reduce(full_join,temp) -> temp 
+    from <- unique(temp$from)
+    until <- unique(temp$until)
+    step <- unique(temp$step)
+    timeperiod <- seq(from,until -step,step)
+    temp %>% 
+      group_by(entityCode) %>% 
+      mutate(date = timeperiod) %>% 
+      mutate(date = unix_date(date)) %>% 
+      select(-from,-until,-step,-nativeStep)
 }
   
 extract_df <- function(region_input=NULL,date_list,normalize_bool= FALSE, moving_average = FALSE, isp_req = NULL){
@@ -99,7 +93,6 @@ dataframe_isp <- dataframe_isp %>% mutate(entityName = name) %>% select(-name)
       dataframe <- rbind(dataframe,dataframe_isp)
     }
   }
-  
   
   if(normalize_bool){
     dataframe %>% 
