@@ -80,7 +80,7 @@ server <- function(input, output) {
   
 test_dataframe <- reactive({
   
-  req((isTruthy(input$Id008)|| isTruthy(input$Id010))
+  req((isTruthy(input$Id008)|| isTruthy(input$Id010) || isTruthy(input$Id011))
       ,length(input$Id009) == 2)
   
   extract_df(region_input=input$Id008,

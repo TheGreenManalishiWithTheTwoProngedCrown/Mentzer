@@ -13,7 +13,7 @@ unix_date <- function(x){
 
 
 unix_from_date <- function(x){
-  as.numeric(as.POSIXct(x, format="%Y-%m-%d %H:%M:%S"))
+  as.numeric(as.POSIXct(x, format="%Y-%m-%d %H:%M:%S"))-14400
 }
 
 
@@ -98,6 +98,7 @@ dataframe_isp <- dataframe_isp %>% mutate(entityName = name) %>% select(-name)
     url_vnzla <- create_url("country","VE",from,until,"ping-slash24")
     dataframe_vnzla <- test_func(fetch_data(url_vnzla))
     dataframe <- rbind(dataframe,dataframe_vnzla)
+    
   }
   
   
