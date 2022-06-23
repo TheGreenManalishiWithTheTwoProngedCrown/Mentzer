@@ -5,6 +5,7 @@ library(shinyWidgets)
 library(tidyr)
 source('testing.R')
 source("get_entities.R")
+source("get_outages.R")
 
 ui <- dashboardPage(
   dashboardHeader(title = "Proyecto Mentzer"),
@@ -70,6 +71,7 @@ ui <- dashboardPage(
   dashboardBody(
     fluidRow(
       box(plotlyOutput("timeseries"), width = 12, height = 580),
+      box(plotlyOutput("mapa"), width = 12, height = 580),
       box(textOutput("text"))
     )
   )
@@ -96,6 +98,8 @@ normalize_label <- reactive({
 })
 
 output$text<- renderPrint(input$Id009)
+
+
   output$timeseries <- renderPlotly({
     
     p <- plot_ly(test_dataframe(),
@@ -116,5 +120,45 @@ output$text<- renderPrint(input$Id009)
     
     p
   })
+  
+  output$mapa <- renderPlotly({
+
+
+    geojson <- rjson::fromJSON(file = "geojson/venezuela.geojson")
+    g<- list(
+      #scope = "south america",
+      fitbounds = "locations"
+    )
+    fig <- plot_ly()
+    fig <- fig %>% add_trace(
+      type="choropleth",
+      geojson=geojson,
+      locations=outages$location_name,
+      z = outages$score,
+      featureidkey = "properties.ESTADO",
+      colors = "Reds"
+    ) %>% 
+      layout(geo = g)
+    fig
+  })
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  
+  
+  
+  
+  
 }
 shinyApp(ui, server)
