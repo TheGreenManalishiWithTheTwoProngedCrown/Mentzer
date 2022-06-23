@@ -63,7 +63,7 @@ ui <- dashboardPage(
   dashboardBody(
     fluidRow(
       box(plotlyOutput("timeseries"), width = 12, height = 580),
-      box(leafletOutput("mapa"), width = 12, height = 580),
+      box(leafletOutput("mapa"), width = 6, height = 580),
       box(textOutput("text"))
     )
   )
