@@ -3,6 +3,9 @@ library(shinydashboard)
 library(plotly)
 library(shinyWidgets)
 library(tidyr)
+library(dplyr)
+library(leaflet)
+library(shinycssloaders)
 source('testing.R')
 source("get_entities.R")
 source("get_outages.R")
@@ -70,8 +73,13 @@ ui <- dashboardPage(
 ),
   dashboardBody(
     fluidRow(
-      box(plotlyOutput("timeseries"), width = 12, height = 580),
-      box(plotlyOutput("mapa"), width = 12, height = 580),
+      box(plotlyOutput("timeseries") %>% 
+            withSpinner(size = 1.5, type = 4),
+          width = 12,
+          height = 580),
+      box(leafletOutput("mapa"),
+          width = 6,
+          title = h3(HTML("<b>Cortes de Internet por region"), align = "center")),
       box(textOutput("text"))
     )
   )
@@ -121,26 +129,28 @@ output$text<- renderPrint(input$Id009)
     p
   })
   
-  output$mapa <- renderPlotly({
+  bins <- c(0, 10, 20, 50, 100, 200, 500, 1000,Inf)
+  pal <- colorBin("Reds", domain = venequia$score, bins = bins)
 
-
-    geojson <- rjson::fromJSON(file = "geojson/venezuela.geojson")
-    g<- list(
-      #scope = "south america",
-      fitbounds = "locations"
-    )
-    fig <- plot_ly()
-    fig <- fig %>% add_trace(
-      type="choropleth",
-      geojson=geojson,
-      locations=outages$location_name,
-      z = outages$score,
-      featureidkey = "properties.ESTADO",
-      colors = "Reds"
-    ) %>% 
-      layout(geo = g)
-    fig
+  labels <- venequia$LABEL %>% lapply(htmltools::HTML)
+  output$mapa <- renderLeaflet({
+    
+    leaflet(venequia) %>% 
+      addTiles() %>% 
+      addPolygons(
+        fillColor= ~pal(score),
+        weight = 2,
+        opacity = 1,
+        color = "grey",
+        dashArray = "3",
+        fillOpacity = 0.7,
+        label = labels
+      )%>% addLegend(pal = pal, values = ~score, opacity = 0.7, title = NULL,
+                     position = "bottomright")
+    
+     
   })
+  
 
   
   
