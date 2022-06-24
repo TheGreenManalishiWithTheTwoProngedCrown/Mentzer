@@ -67,7 +67,9 @@ ui <- dashboardPage(
             withSpinner(size = 1.5, type = 4),
           width = 12,
           height = 580),
-      box(leafletOutput("mapa"), width = 6, height = 580),
+      box(leafletOutput("mapa"),
+          width = 6,
+          title = h3(HTML("<b>Cortes de Internet por region"), align = "center")),
       box(textOutput("text"))
     )
   )
