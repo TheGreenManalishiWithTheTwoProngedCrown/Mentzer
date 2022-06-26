@@ -1,7 +1,7 @@
 venequia <- geojsonio::geojson_read("geojson/venezuela.geojson",what = 'sp')
 
 until <- unix_from_date(now() + hours(4))
-from <- unix_from_date(now() - days(2) + hours(4)) #VERIFICAR ESO EL DESPLAZAMIENTO, LA FUNCION UNIX_... PARECE TENER UN OFFSET
+from <- unix_from_date(now() - days(1) + hours(4)) #VERIFICAR ESO EL DESPLAZAMIENTO, LA FUNCION UNIX_... PARECE TENER UN OFFSET
 
 
 url <- paste("https://api.ioda.inetintel.cc.gatech.edu/v2/outages/events?from=",
@@ -12,7 +12,7 @@ url <- paste("https://api.ioda.inetintel.cc.gatech.edu/v2/outages/events?from=",
              sep = "") 
 
 fetch_data(url) -> outages
-
+print(outages)
 ## Filtramos para solo tener las regiones
 
 outages <- outages %>% 
@@ -28,6 +28,11 @@ outages <- outages %>%
 
 #outages$score[is.na(outages$score)] <- 0
 
-outages$ESTADO <-  toupper(iconv(outages$ESTADO,to = 'ASCII//TRANSLIT'))
 
-venequia <- sp::merge(venequia, outages, by ="ESTADO",all.x = FALSE)
+if(dim(outages)[1] != 0){
+  outages$ESTADO <-  toupper(iconv(outages$ESTADO,to = 'ASCII//TRANSLIT'))
+  
+  venequia <- sp::merge(venequia, outages, by ="ESTADO",all.x = FALSE)
+}
+
+
