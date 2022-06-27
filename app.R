@@ -126,6 +126,7 @@ output$text<- renderPrint(input$Id009)
         layout(yaxis = list(ticksuffix = "%"))
     }
     
+    
     p
   })
   
