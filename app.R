@@ -41,12 +41,14 @@ ui <- dashboardPage(
       right = TRUE
     ),
     
-    awesomeCheckboxGroup(
+    pickerInput(
       inputId = "Id001",
       label = "Data Types", 
       choices = c("Active Probing", "BGP", "Telescope"),
-      inline = TRUE,
-      status = "danger"
+      multiple = TRUE,
+      options =  list("tick-icon" = "glyphicon glyphicon-ok-sign",
+                      `actions-box` = TRUE,
+                      `live-Search` = TRUE)
     ),
     
     airDatepickerInput(
@@ -98,14 +100,15 @@ test_dataframe <- reactive({
              normalize_bool= input$Id007,
              moving_average = input$Id006,
              isp_req = input$Id010,
-             vnzla = input$Id011)})
+             vnzla = input$Id011,
+             datatype=input$Id001)})
 
 
 normalize_label <- reactive({
   input$Id007
 })
 
-output$text<- renderPrint(input$Id009)
+output$text<- renderPrint(input$Id001)
 
 
   output$timeseries <- renderPlotly({
