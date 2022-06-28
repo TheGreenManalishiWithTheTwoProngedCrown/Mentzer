@@ -45,10 +45,9 @@ ui <- dashboardPage(
       inputId = "Id001",
       label = "Data Types", 
       choices = c("Active Probing", "BGP", "Telescope"),
-      multiple = TRUE,
-      options =  list("tick-icon" = "glyphicon glyphicon-ok-sign",
-                      `actions-box` = TRUE,
-                      `live-Search` = TRUE)
+      multiple = FALSE,
+      options =  list("tick-icon" = "glyphicon glyphicon-ok-sign"
+                      )
     ),
     
     airDatepickerInput(
@@ -108,7 +107,21 @@ normalize_label <- reactive({
   input$Id007
 })
 
-output$text<- renderPrint(input$Id001)
+
+  
+  
+
+
+ 
+ title_y <- reactive({
+    case_when(
+      input$Id001 == "Active Probing" ~ '<b> #/24s Up </b>',
+      input$Id001 == "BGP" ~ '<b> BGP (# Visible /24s) </b>',
+      input$Id001 == "Telescope" ~ '<b> Telescope () </b>'
+    )
+   
+ })
+ output$text<- renderPrint(title_y())
 
 
   output$timeseries <- renderPlotly({
@@ -121,7 +134,7 @@ output$text<- renderPrint(input$Id001)
             mode = 'lines+markers') %>% 
       layout(height = 535, legend = list(xanchor = "center", x = 0.5, y = -0.15, orientation = 'h'),
              xaxis = list(visible = 'FALSE',title = '<b> Time(UTC) </b>'),
-             yaxis = list(rangemode = 'tozero',title = '<b> #/24s Up </b>')
+             yaxis = list(rangemode = 'tozero',title = title_y())
              ) 
 
     if(normalize_label()){

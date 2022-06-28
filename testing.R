@@ -63,14 +63,17 @@ test_func <- function(alist){
       select(-from,-until,-step,-nativeStep)
 }
   
-extract_df <- function(region_input=NULL,date_list,normalize_bool= FALSE, moving_average = FALSE, isp_req = NULL,vnzla = FALSE,datatype){
+extract_df <- function(region_input=NULL,date_list,normalize_bool= FALSE, moving_average = FALSE, isp_req = NULL,vnzla = FALSE,datatype="Active Probing"){
   from <- unix_from_date(date_list[1])
   until <- unix_from_date(date_list[2])
   
-  if(datatype=="Active Probing"){
-    datatype<-"ping-slash24"
-  }
+  datatype <- case_when(
+    datatype == "Active Probing" ~ "ping-slash24",
+    datatype == "BGP" ~ "bgp",
+    datatype == "Telescope" ~ "merit-nt"
+  )
   
+
   if(!is.null(region_input)){
   codes <- lapply(region_input,get_code_from_name,entities)
   #print(codes)
