@@ -10,6 +10,9 @@ source('testing.R')
 source("get_entities.R")
 source("get_outages.R")
 
+options(rsconnect.check.certificate = FALSE)
+
+
 ui <- dashboardPage(
   dashboardHeader(title = "Proyecto Mentzer"),
   dashboardSidebar(width = 300, sidebarMenu(
@@ -117,7 +120,7 @@ normalize_label <- reactive({
     case_when(
       input$Id001 == "Active Probing" ~ '<b> #/24s Up </b>',
       input$Id001 == "BGP" ~ '<b> BGP (# Visible /24s) </b>',
-      input$Id001 == "Telescope" ~ '<b> Telescope () </b>'
+      input$Id001 == "Telescope" ~ '<b> Telescope ( # Unique Source IPs) </b>'
     )
    
  })

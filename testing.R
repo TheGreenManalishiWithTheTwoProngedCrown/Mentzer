@@ -3,7 +3,8 @@ library(tidyr)
 library(lubridate)
 library(ggplot2)
 library(plotly)
-
+library(httr)
+httr::set_config(config(ssl_verifypeer=FALSE))
 
 
 unix_date <- function(x){
