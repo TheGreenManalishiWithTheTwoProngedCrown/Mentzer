@@ -12,7 +12,6 @@ url <- paste("https://api.ioda.inetintel.cc.gatech.edu/v2/outages/events?from=",
              sep = "") 
 
 fetch_data(url) -> outages
-print(outages)
 ## Filtramos para solo tener las regiones
 
 outages <- outages %>% 

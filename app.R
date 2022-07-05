@@ -155,6 +155,8 @@ normalize_label <- reactive({
   labels <- venequia$LABEL %>% lapply(htmltools::HTML)
   output$mapa <- renderLeaflet({
     
+    
+    if(dim(outages)[1] != 0){  
     leaflet(venequia) %>% 
       addTiles() %>% 
       addPolygons(
@@ -166,7 +168,7 @@ normalize_label <- reactive({
         fillOpacity = 0.7,
         label = labels
       )%>% addLegend(pal = pal, values = ~score, opacity = 0.7, title = NULL,
-                     position = "bottomright")
+                     position = "bottomright")}
     
      
   })
