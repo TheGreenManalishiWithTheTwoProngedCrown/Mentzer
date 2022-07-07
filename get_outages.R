@@ -19,7 +19,7 @@ outages <- outages %>%
   filter(type == "region") %>%
   rename( ESTADO = location_name) %>% 
   group_by(ESTADO) %>%  
-  top_n(1,start) %>% 
+  top_n(1,score) %>% 
   mutate(LABEL = paste("<strong>",ESTADO,"</strong>","-",as.integer(score))) %>% 
   select(ESTADO,score,LABEL)
   # right_join(entities, by = c("location_name" = "name"))
@@ -34,4 +34,17 @@ if(dim(outages)[1] != 0){
   venequia <- sp::merge(venequia, outages, by ="ESTADO",all.x = FALSE)
 }
 
+url <- paste("https://api.ioda.inetintel.cc.gatech.edu/v2/outages/alerts?from=",
+             format(from,scientific = FALSE)
+             ,"&until=",
+             format(until,scientific = FALSE),
+             "&includeAlertsors=true&limit=2000&relatedTo=country%2FVE&overall=false", 
+             sep = "") 
 
+
+fetch_data(url) -> alertas
+providers <- alertas %>% 
+  unnest(cols = c(entity)) %>% 
+  unnest(cols = c(attrs), names_repair = 'unique') %>% 
+  filter(type == "asn") %>% 
+  select(datasource,org,type,fqid,ip_count,time,level,condition,value,historyValue)
