@@ -26,6 +26,8 @@ ui <- dashboardPage(
                       `actions-box` = TRUE,
                       `live-Search` = TRUE,
                       liveSearchStyle = "contains"),
+      selected = outage_regions$location_name
+      
     ),
     pickerInput(
       inputId = "Id010",
@@ -59,7 +61,8 @@ ui <- dashboardPage(
       range = TRUE,
       todayButton = TRUE,
       label = "Fecha",
-      clearButton = TRUE
+      clearButton = TRUE,
+      value = c(now()-hours(24), now())
     ),
     materialSwitch(
       inputId = "Id006",

@@ -17,10 +17,16 @@ fetch_data(url) -> outages
 outages <- outages %>% 
   separate(location,c("type","code"),sep = "/") %>% 
   filter(type == "region") %>%
-  rename( ESTADO = location_name) %>% 
+  mutate( ESTADO = location_name) %>% 
   group_by(ESTADO) %>%  
   top_n(1,score) %>% 
-  mutate(LABEL = paste("<strong>",ESTADO,"</strong>","-",as.integer(score))) %>% 
+  distinct(ESTADO,.keep_all = TRUE) %>% 
+  mutate(LABEL = paste("<strong>",ESTADO,"</strong>","-",as.integer(score))) 
+
+outage_regions <- outages %>% 
+  select(location_name)
+
+outages <- outages %>% 
   select(ESTADO,score,LABEL)
   # right_join(entities, by = c("location_name" = "name"))
   # 
