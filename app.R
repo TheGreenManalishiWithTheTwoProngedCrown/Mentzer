@@ -197,13 +197,18 @@ normalize_label <- reactive({
                 ip_count = colDef(name = "# de IP's",
                                   show = TRUE),
                 score = colDef(show = TRUE,
-                               name = "# De Ip's",
-                               style = function(value,index){
-                                 level <- providers$level[index]
-                                 if (level == "critical"){
-                                   color = "rgba(255,0,0,0.3)"
+                               name = "Nivel",
+                               style = function(value,index) {
+                                 level1 <- providers$level[index]
+                                 if (level1 == "critical"){
+                                   color1 <- "rgba(255,0,0,0.5)"
+                                 } else if (level1 == 'normal'){
+                                   color1 <- "rgba(0,0,0,0)"
+                                 } else{
+                                   color1 <- "rgba(0,255,0,0.2)"
                                  }
-                                 list(background = color)
+                                 list(background = color1)
+                                 
                     
                                })
               ),
