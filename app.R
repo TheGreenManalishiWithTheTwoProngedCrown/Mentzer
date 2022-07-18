@@ -182,12 +182,32 @@ normalize_label <- reactive({
   
 
   output$isp_table<-renderReactable({
-    reactable(providers[,c("org","Codigo","ip_count","score")],
+    reactable(providers,
+              defaultColDef = colDef(show = FALSE),
               columns = list(
-                org = colDef(name = "Nombre"),
-                ip_count = colDef(name = "# de IP's"),
-                score = colDef(name = "Nivel de la alerta")
-              ))
+                org = colDef(name = "Nombre",
+                             cell = function(value,index){
+                               codigo<-providers$Codigo[index]
+                               div(
+                                 div(style = "font-weight: 600", value),
+                                 div(style = "font-size: 0.75rem", codigo)
+                               )   
+                             },
+                             show = TRUE),
+                ip_count = colDef(name = "# de IP's",
+                                  show = TRUE),
+                score = colDef(show = TRUE,
+                               name = "# De Ip's",
+                               style = function(value,index){
+                                 level <- providers$level[index]
+                                 if (level == "critical"){
+                                   color = "rgba(255,0,0,0.3)"
+                                 }
+                                 list(background = color)
+                    
+                               })
+              ),
+              striped = TRUE)
   })
   
   

@@ -68,4 +68,4 @@ providers <- alertas %>%
          Codigo = paste0("AS",code)) 
  
 
-rm(alertas,url,from,until,outages_raw,outag_isp_score)
+#rm(alertas,url,from,until,outages_raw,outag_isp_score)
