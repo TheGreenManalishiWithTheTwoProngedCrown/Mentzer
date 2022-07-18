@@ -62,6 +62,10 @@ providers <- alertas %>%
   slice_max(value) %>% 
   select(org,datasource,fqid,ip_count,time,level,condition,value,historyValue) %>% 
   separate(fqid,c("type","code"),sep = '\\.') %>% 
-  left_join(outag_isp_score, by= "code")
+  left_join(outag_isp_score, by= "code") %>% 
+  mutate(score = formatter_number(score),
+         ip_count = formatter_number(ip_count),
+         Codigo = paste0("AS",code)) 
+ 
 
 rm(alertas,url,from,until,outages_raw,outag_isp_score)

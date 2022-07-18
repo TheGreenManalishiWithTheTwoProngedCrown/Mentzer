@@ -123,3 +123,13 @@ dataframe_isp <- dataframe_isp %>% mutate(entityName = name) %>% select(-name)
   }
   return(dataframe)
 }
+
+
+formatter_number <- function(x){
+  x <- as.numeric(x)
+  case_when(
+    x < 1e3 ~ as.character(round(x,1)),
+    x < 1e6 ~ paste0(as.character(round(x/1e3,1)), "K"),
+    x < 1e9 ~ paste0(as.character(round(x/1e6,1)), "M")
+  )
+}

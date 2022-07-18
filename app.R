@@ -88,7 +88,7 @@ ui <- dashboardPage(
       box(leafletOutput("mapa"),
           width = 6,
           title = h3(HTML("<b>Cortes de Internet por region"), align = "center")),
-      box(textOutput("text"))
+      box(reactableOutput("isp_table"))
     )
   )
 )
@@ -175,10 +175,20 @@ normalize_label <- reactive({
                      position = "bottomright")}
     
      
+    
+    
+    
   })
   
 
-  
+  output$isp_table<-renderReactable({
+    reactable(providers[,c("org","Codigo","ip_count","score")],
+              columns = list(
+                org = colDef(name = "Nombre"),
+                ip_count = colDef(name = "# de IP's"),
+                score = colDef(name = "Nivel de la alerta")
+              ))
+  })
   
   
   
