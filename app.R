@@ -62,7 +62,7 @@ ui <- dashboardPage(
       todayButton = TRUE,
       label = "Fecha",
       clearButton = TRUE,
-      value = c(now()-hours(24), now())
+      value = c(now()-hours(12), now()+hours(8))
     ),
     materialSwitch(
       inputId = "Id006",
