@@ -16,7 +16,12 @@ options(rsconnect.check.certificate = FALSE)
 
 ui <- dashboardPage(
   dashboardHeader(title = "Proyecto Mentzer"),
-  dashboardSidebar(width = 300, sidebarMenu(
+  dashboardSidebar(tags$head(
+    tags$style(
+      HTML('
+        #Id009{width: 260px}
+    ')
+    )),width = 300, sidebarMenu(
     
     pickerInput(
       inputId = "Id008",
@@ -63,6 +68,7 @@ ui <- dashboardPage(
       todayButton = TRUE,
       label = "Fecha",
       clearButton = TRUE,
+      placeholder = "Seleccione un periodo de tiempo",
       value = c(now()-hours(12), now()+hours(8))
     ),
     materialSwitch(
