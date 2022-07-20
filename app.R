@@ -42,7 +42,10 @@ ui <- dashboardPage(
       multiple = TRUE,
       options =  list("tick-icon" = "glyphicon glyphicon-ok-sign",
                       `actions-box` = TRUE,
-                      `live-Search` = TRUE)
+                      `live-Search` = TRUE),
+      choicesOpt = list(
+        subtext = paste("AS",isp$code)
+      )
     ),
     
     materialSwitch(
