@@ -200,7 +200,7 @@ normalize_label <- reactive({
                                div(
                                  div(style = "font-weight: 600", value),
                                  div(style = "font-size: 0.75rem", codigo)
-                               )   
+                               )
                              },
                              show = TRUE),
                 ip_count = colDef(name = "# de IP's",
@@ -217,13 +217,13 @@ normalize_label <- reactive({
                                    color1 <- "rgba(0,255,0,0.2)"
                                  }
                                  list(background = color1)
-                                 
-                    
+
+
                                })
               ),
               striped = TRUE)
   })
-  
+
   
   
   
