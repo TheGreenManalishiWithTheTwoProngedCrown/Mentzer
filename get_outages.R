@@ -4,7 +4,7 @@ until <- unix_from_date(now() + hours(8))
 from <- unix_from_date(now() - days(10) + hours(4)) #VERIFICAR ESO EL DESPLAZAMIENTO, LA FUNCION UNIX_... PARECE TENER UN OFFSET
 
 
-url <- paste("https://api.ioda.inetintel.cc.gatech.edu/v2/outages/events?from=",
+url <- paste("http://api.ioda.inetintel.cc.gatech.edu/v2/outages/events?from=",
              format(from,scientific = FALSE)
              ,"&until=",
              format(until,scientific = FALSE),

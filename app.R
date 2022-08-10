@@ -142,12 +142,20 @@ normalize_label <- reactive({
 
   output$timeseries <- renderPlotly({
     
-    p <- plot_ly(test_dataframe(),
+    p <- plot_ly(
+            test_dataframe(),
             x= ~date,
             y= ~values,
             color = ~entityName,
             type = 'scatter',
-            mode = 'lines+markers') %>% 
+            mode = 'lines+markers',
+            marker = list(
+              size = 3
+              ),
+            line = list(
+              width = 1.2
+            )
+            ) %>% 
       layout(height = 535, legend = list(xanchor = "center", x = 0.5, y = -0.15, orientation = 'h'),
              xaxis = list(visible = 'FALSE',title = '<b> Time(UTC) </b>'),
              yaxis = list(rangemode = 'tozero',title = title_y())
