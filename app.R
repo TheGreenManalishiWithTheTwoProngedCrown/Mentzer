@@ -14,7 +14,7 @@ source("get_outages.R")
 options(rsconnect.check.certificate = FALSE)
 
 
-ui <- dashboardPage(
+ui <- function(request) { dashboardPage(
   dashboardHeader(title = "Proyecto Mentzer"),
   dashboardSidebar(tags$head(
     tags$style(
@@ -86,7 +86,9 @@ ui <- dashboardPage(
       status = "primary",
       right = TRUE,
       value = TRUE
-    )
+    ),
+    br(),
+    bookmarkButton(label = "Compartir")
   )
 ),
   dashboardBody(
@@ -101,7 +103,7 @@ ui <- dashboardPage(
       box(reactableOutput("isp_table"))
     )
   )
-)
+)}
 
 server <- function(input, output) {
   
@@ -249,4 +251,4 @@ normalize_label <- reactive({
   
   
 }
-shinyApp(ui, server)
+shinyApp(ui, server, enableBookmarking = "url")
