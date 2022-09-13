@@ -11,7 +11,9 @@ entities %>%
 filter(!code %in% drop) %>% 
   arrange(name)-> entities
 
-
+entities[entities$code == 264731,]$name = "Corporacion Digitel C.A. BGP"
 
 regions <- entities %>% filter(type == "region")
 isp <- entities %>% filter(type == "asn")
+isp[isp$code == 264731,]$name = "Corporacion Digitel C.A. BGP"
+

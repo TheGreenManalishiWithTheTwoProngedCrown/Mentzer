@@ -28,12 +28,15 @@ fetch_data <- function(url){
 
 create_url <- function(type,code,from,until,datasource){
   header = "http://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/"
-  
+  print(code)
 
   if (length(code) > 1) {
     code <- paste(code, collapse= "%2C")
   }
   url <- paste0(header,type,"/",code,"?from=",as.character(from),"&until=",as.character(until),"&datasource=",datasource)
+  
+  print(url)
+  
   return(url)
 }
 
