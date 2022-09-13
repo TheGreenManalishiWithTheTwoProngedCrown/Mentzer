@@ -189,8 +189,7 @@ normalize_label <- reactive({
         dashArray = "3",
         fillOpacity = 0.7,
         label = labels
-      )%>% addLegend(pal = pal, values = ~score, opacity = 0.7, title = NULL,
-                     position = "bottomright")}
+      )}
     
      
     
