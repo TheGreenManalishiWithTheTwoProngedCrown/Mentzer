@@ -102,8 +102,12 @@ dataframe_isp <- dataframe_isp %>% mutate(entityName = name) %>% select(-name)
   if(vnzla == TRUE){
     url_vnzla <- create_url("country","VE",from,until,datatype)
     dataframe_vnzla <- test_func(fetch_data(url_vnzla))
+    if(is.null(region_input) && is.null(isp_req)){
+      dataframe <- dataframe_vnzla
+    }else{
+
     dataframe <- rbind(dataframe,dataframe_vnzla)
-    
+    }
   }
   
   
