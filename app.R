@@ -84,7 +84,8 @@ ui <- dashboardPage(
       inputId = "Id007",
       label = "Normalize", 
       status = "primary",
-      right = TRUE
+      right = TRUE,
+      value = TRUE
     )
   )
 ),
