@@ -11,11 +11,42 @@ source('testing.R')
 source("get_entities.R")
 source("get_outages.R")
 
+
+library(fresh)
+# Create the theme
+mytheme <- create_theme(
+   adminlte_color(
+    light_blue = "#151a1f"
+  ),
+  adminlte_sidebar(
+    width = "350px",
+    dark_bg = "#272c30",
+    dark_hover_bg = "#FFF",
+    dark_color = "#2E3440"
+  ),
+  adminlte_global(
+    content_bg = "#FFF",
+    box_bg = "FFF", 
+    info_box_bg = "#D8DEE9"
+  )
+)
+
+
+
+
 options(rsconnect.check.certificate = FALSE)
 
 
+
+
+
+
+
+
+
+
 ui <- function(request) { dashboardPage(
-  dashboardHeader(title = "Proyecto Mentzer"),
+  dashboardHeader(title = span(img(src = 'VeSinFiltro-long.png', height="70%", width="75%"))),
   dashboardSidebar(tags$head(
     tags$style(
       HTML('
@@ -92,15 +123,17 @@ ui <- function(request) { dashboardPage(
   )
 ),
   dashboardBody(
+    use_theme(mytheme),
     fluidRow(
       box(plotlyOutput("timeseries") %>% 
             withSpinner(size = 1.5, type = 4),
           width = 12,
           height = 580),
       box(leafletOutput("mapa"),
-          width = 6,
+          width = 7,
           title = h3(HTML("<b>Cortes de Internet por region"), align = "center")),
-      box(reactableOutput("isp_table"))
+      box(reactableOutput("isp_table"),
+          title=h3(HTML("<b>Cortes de Internet por proveedor"), align = "center"))
     )
   )
 )}
@@ -191,7 +224,9 @@ normalize_label <- reactive({
         dashArray = "3",
         fillOpacity = 0.7,
         label = labels
-      )}
+      ) %>% addProviderTiles("Thunderforest.OpenCycleMap")
+      
+      }
     
      
     
