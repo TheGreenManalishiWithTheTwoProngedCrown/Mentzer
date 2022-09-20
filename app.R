@@ -131,6 +131,22 @@ ui <- function(request) { dashboardPage(title = "VeSinFiltro",
   )
 ),
   dashboardBody(
+    tags$head(tags$style(HTML(
+      '.myClass { 
+        font-size: 20px;
+        line-height: 50px;
+        text-align: center;
+        font-family:"Fira Sans", sans-serif !important;
+        padding: 0 15px;
+        overflow: hidden;
+        color: white;
+      }
+    '))),
+    tags$script(HTML('
+      $(document).ready(function() {
+        $("header").find("nav").append(\'<span class="myClass"> Reporte de conectividad</span>\');
+      })
+     ')),
     use_theme(mytheme),
     fluidRow(
       box(plotlyOutput("timeseries") %>% 
