@@ -32,25 +32,33 @@ mytheme <- create_theme(
 )
 
 
-
-
 options(rsconnect.check.certificate = FALSE)
 
 
 
 
 
+tags$head(
+  tags$style(HTML(
+    ".label-primary {
+     background-color: #8B8000;
+  }"
+  ))
+  
+)
 
 
 
-
-
-ui <- function(request) { dashboardPage(
-  dashboardHeader(title = span(img(src = 'VeSinFiltro-long.png', height="70%", width="75%"))),
+ui <- function(request) { dashboardPage(title = "VeSinFiltro", 
+  dashboardHeader(title = span(img(src = 'VeSinFiltro-long.png', height="70%", width="50%"))),
   dashboardSidebar(tags$head(
     tags$style(
       HTML('
         #Id009{width: 260px}
+        
+        .label-primary{
+     background-color: #8B8000;
+  }
     ')
     )),width = 300, sidebarMenu(
     
@@ -82,7 +90,7 @@ ui <- function(request) { dashboardPage(
     materialSwitch(
       inputId = "Id011",
       label = "Venezuela (Nacional)", 
-      status = "primary",
+      status = "warning",
       right = TRUE
     ),
     
@@ -108,13 +116,13 @@ ui <- function(request) { dashboardPage(
     materialSwitch(
       inputId = "Id006",
       label = "Moving Average", 
-      status = "primary",
+      status = "warning",
       right = TRUE
     ),
     materialSwitch(
       inputId = "Id007",
       label = "Normalize", 
-      status = "primary",
+      status = "warning",
       right = TRUE,
       value = TRUE
     ),
@@ -130,7 +138,7 @@ ui <- function(request) { dashboardPage(
           width = 12,
           height = 580),
       box(leafletOutput("mapa"),
-          width = 7,
+          width = 6,
           title = h3(HTML("<b>Cortes de Internet por region"), align = "center")),
       box(reactableOutput("isp_table"),
           title=h3(HTML("<b>Cortes de Internet por proveedor"), align = "center"))
