@@ -14,7 +14,7 @@ url <- paste("http://api.ioda.inetintel.cc.gatech.edu/v2/outages/events?from=",
 fetch_data(url) -> outages_raw
 ## Filtramos para solo tener las regiones
 
-
+if(!is.null(dim(outages_raw))){
 
 
 outag_isp_score <- outages_raw %>% 
@@ -41,7 +41,7 @@ outages <- outages %>%
 
 #outages$score[is.na(outages$score)] <- 0
 
-
+}
 if(dim(outages)[1] != 0){
   outages$ESTADO <-  toupper(iconv(outages$ESTADO,to = 'ASCII//TRANSLIT'))
   
@@ -60,8 +60,11 @@ fetch_data(url) -> alertas
 providers <- alertas %>% 
   unnest(cols = c(entity)) %>% 
   unnest(cols = c(attrs), names_repair = 'unique') %>% 
-  filter(type == "asn") %>% 
-  group_by(org) %>% 
+  filter(type == "asn") 
+
+
+if(nrow(providers) > 0){
+providers <- providers %>%  group_by(org) %>% 
   slice_max(value) %>% 
   select(org,datasource,fqid,ip_count,time,level,condition,value,historyValue) %>% 
   separate(fqid,c("type","code"),sep = '\\.') %>% 
@@ -70,5 +73,5 @@ providers <- alertas %>%
          ip_count = formatter_number(ip_count),
          Codigo = paste0("AS",code)) 
  
-
+}
 rm(alertas,url,from,until,outages_raw,outag_isp_score)
