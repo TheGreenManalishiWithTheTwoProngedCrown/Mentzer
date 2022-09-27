@@ -47,6 +47,9 @@ tags$head(
   
 )
 
+tags$head(tags$link(rel="shortcut icon", href="favicon.ico"))
+
+
 
 
 ui <- function(request) { dashboardPage(title = "VeSinFiltro", 
